@@ -26,13 +26,25 @@ jobs:
           java-version: '21'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install @capacitor/core@^7.4.3 @capacitor/android@^7.4.3 @capacitor/cli@^7.4.3
 
       - name: Build React
         run: npm run build
 
-      - name: Initialize Capacitor
-        run: npx cap init "Selva Smart Calculator" com.selva.smartcalculator --web-dir dist
+      - name: Create Capacitor JSON config
+        run: |
+          rm -f capacitor.config.js
+          rm -f capacitor.config.ts
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.selva.smartcalculator",
+            "appName": "Selva Smart Calculator",
+            "webDir": "dist",
+            "bundledWebRuntime": false
+          }
+          EOF
 
       - name: Add Android
         run: npx cap add android
