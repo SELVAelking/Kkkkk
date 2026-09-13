@@ -28,20 +28,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build React app
+      - name: Build React
         run: npm run build
 
-      - name: Create Capacitor config
-        run: |
-          cat > capacitor.config.js <<'EOF'
-          const config = {
-            appId: 'com.selva.smartcalculator',
-            appName: 'Selva Smart Calculator',
-            webDir: 'dist'
-          };
-
-          export default config;
-          EOF
+      - name: Initialize Capacitor
+        run: npx cap init "Selva Smart Calculator" com.selva.smartcalculator --web-dir dist
 
       - name: Add Android
         run: npx cap add android
